@@ -76,11 +76,11 @@ async function readQuestions(inquirerQuestions) {
   return { ...optionValues, ...additionalStrings }
 }
 
-async function runTemplateEngine(templateData) {
-  const templateRelativePaths = glob.sync('**/*.*', { cwd: path.join(__dirname, 'template'), dot: true })
+async function runTemplateEngine(templateRoot, templateData) {
+  const templateRelativePaths = glob.sync('**/*.*', { cwd: path.join(templateRoot, 'template'), dot: true })
 
   const writingOperations = templateRelativePaths.map(async templateRelativePath => {
-    const templateAbsolutePath = path.join(__dirname, 'template', templateRelativePath)
+    const templateAbsolutePath = path.join(templateRoot, 'template', templateRelativePath)
 
     const templateContent = await fs.readFile(templateAbsolutePath, 'utf-8')
     const renderedContent = ejs.render(templateContent, templateData, ejsOptions)
